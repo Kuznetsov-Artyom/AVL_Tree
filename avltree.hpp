@@ -16,7 +16,7 @@ struct Node
 	Node<T>* left;
 	Node<T>* right;
 
-	Node(T keyValue, T height = 0) : key{ keyValue }, height{ 0 }, left{ nullptr }, right{ nullptr } {}
+	Node(T keyValue, int8_t heightVal = 0) : key{ keyValue }, height{ heightVal }, left{ nullptr }, right{ nullptr } {}
 };
 
 
@@ -34,12 +34,11 @@ public:
 	avlTree() : mRoot{ nullptr }, mSize{ 0 } {}
 	avlTree(const avlTree& other) : avlTree()
 	{
-		if (other.empty()) return;
-
-
-		// TODO
-
-
+		if (!other.empty())
+		{
+			mRoot = copyOther(other.mRoot);
+			mSize = other.mSize;
+		}
 	}
 
 
@@ -92,11 +91,32 @@ public:
 		clearAll(mRoot, way);
 		mSize = 0;
 	}
+	void print() const
+	{
+		if (empty())
+		{
+			std::cout << "Tree is empty\n";
+			return;
+		}
 
+		std::cout << "Current size: " << mSize << '\n';
+		printer(mRoot);
+		std::cout << '\n';
+	}
 
 	avlTree& operator = (const avlTree& other)
 	{
-		// TODO
+		if (this == &other) return *this;
+
+		clear();
+
+		if (!other.empty())
+		{
+			mRoot = copyOther(other.mRoot);
+			mSize = other.mSize;
+		}
+
+		return *this;
 	}
 
 
@@ -266,7 +286,7 @@ private:
 
 		clearAll(lastNode, way);
 	}
-	Node<T>* finder(Node<T>* node, const T& value)
+	const Node<T>* finder(const Node<T>* node, const T& value) const
 	{
 		if (node == nullptr)
 			return nullptr;
@@ -279,9 +299,25 @@ private:
 
 		return node;
 	}
-	Node<T>* copyOther(Node<T>*& thisRoot,const Node<T>*& otherRoot)
+	Node<T>* copyOther(const Node<T>* otherRoot)
 	{
-		// TODO
+		if (otherRoot == nullptr)
+			return nullptr;
+
+		Node<T>* node = new Node<T>(otherRoot->key, otherRoot->height);
+
+		node->left = copyOther(otherRoot->left);
+		node->right = copyOther(otherRoot->right);
+
+		return node;
+	}
+	void printer(Node<T>* node) const
+	{
+		if (node == nullptr) return;
+
+		printer(node->left);
+		std::cout << node->key << ' ';
+		printer(node->right);
 	}
 };
 

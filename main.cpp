@@ -24,7 +24,6 @@ int main(int argc, char* argv[], char** env)
 	std::cout << tree.find(100) << '\n';
 
 
-
 	while (true)
 	{
 		int value{};
@@ -39,9 +38,24 @@ int main(int argc, char* argv[], char** env)
 		std::cout << tree.size() << '\n';
 	}
 
-	std::cout << tree.find(17) << '\n';
-	tree.remove(50);
-	tree.remove(75);
+	tree.print();
+
+	avlTree<int> treeTwo(tree);
+
+	while (true)
+	{
+		int value{};
+
+		std::cout << "input value new node: ";
+		std::cin >> value;
+
+		if (value == -1) break;
+
+		tree.insert(value);
+	}
+
+	treeTwo = tree;
+
 
 	tree.clear();
 
