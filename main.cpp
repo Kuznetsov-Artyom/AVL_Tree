@@ -6,17 +6,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 int main(int argc, char* argv[], char** env)
 {	
 	avlTree<int> tree;
@@ -56,6 +45,7 @@ int main(int argc, char* argv[], char** env)
 
 	treeTwo = tree;
 
+	treeTwo.print();
 
 	tree.clear();
 
